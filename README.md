@@ -1,1 +1,1 @@
-# perfect-recipes-api
+# recipes-api
