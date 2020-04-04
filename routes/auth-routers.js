@@ -61,7 +61,7 @@ checkPassword = (password) => {
 }
 
 const config = {
-    origin: 'https://frontend-recipes.herokuapp.com/',
+    origin: 'https://frontend-recipes.herokuapp.com',
     credentials: true,
     allowedHeaders: ['Content-Type','application/json']
 };

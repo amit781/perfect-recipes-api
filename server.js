@@ -8,7 +8,7 @@ const apiRoutes = require('./routes/api-routers')
 const { db } = require('./config/postgresql-setup');
 
 const config = {
-    origin: 'https://frontend-recipes.herokuapp.com/',
+    origin: 'https://frontend-recipes.herokuapp.com',
     credentials: true,
     allowedHeaders: ['Content-Type', 'application/json']
 };
