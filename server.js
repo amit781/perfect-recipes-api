@@ -28,4 +28,6 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
-app.listen(4000)
+app.listen(process.env.Port || 4000 => {
+	console.log(`app is running on port ${process.env.port}`)
+})
