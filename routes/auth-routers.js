@@ -66,7 +66,7 @@ const config = {
     allowedHeaders: ['Content-Type','application/json']
 };
 router.options('/register', cors(config))
-router.post('/register', async (req, res) => {
+router.post('/register',cors(config), async (req, res) => {
 	const { email, name, password } = req.body;
 	console.log(email, name, password);
 	if (!email || !name || !password) {
