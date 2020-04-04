@@ -10,6 +10,7 @@ const { db } = require('./config/postgresql-setup');
 const config = {
     origin: 'http://localhost:3000',
     credentials: true,
+    allowedHeaders: ['Content-Type', 'application/json']
 };
 
 const app = express();
