@@ -32,6 +32,6 @@ app.get('/' , (req, res) => {
 	res.send('it is working');
 })
 
-app.listen(process.env.Port || 4000 => {
-	console.log(`app is running on port ${process.env.port}`)
+app.listen(process.env.PORT || 4000, () => {
+	console.log(`app is running on port ${process.env.PORT}`)
 })
