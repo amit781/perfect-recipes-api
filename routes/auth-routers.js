@@ -4,6 +4,7 @@ const passportSetup = require('../config/passport-setup');
 const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 const bcrypt = require('bcrypt');
 const { db } = require('../config/postgresql-setup');
+const cors = require('cors');
 
 //auth with google
 router.get('/google', passport.authenticate('google', {
