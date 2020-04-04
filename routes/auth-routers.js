@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const passportSetup = require('../config/passport-setup');
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
+const CLIENT_HOME_PAGE_URL = "https://frontend-recipes.herokuapp.com";
 const bcrypt = require('bcrypt');
 const { db } = require('../config/postgresql-setup');
 const cors = require('cors');
