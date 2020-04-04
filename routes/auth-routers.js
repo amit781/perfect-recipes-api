@@ -59,8 +59,13 @@ checkPassword = (password) => {
     return re.test(password);
 }
 
+const config = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    allowedHeaders: ['Content-Type','application/json']
+};
+router.options('/register', cors(config))
 router.post('/register', async (req, res) => {
-	console.log('aslkdjskad');
 	const { email, name, password } = req.body;
 	console.log(email, name, password);
 	if (!email || !name || !password) {
