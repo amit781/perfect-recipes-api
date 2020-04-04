@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const keys = require('../config/keys');
+// const keys = require('../config/keys');
 const axios = require('axios');
 const unirest = require("unirest");
 
@@ -14,7 +14,7 @@ router.post('/searchRecipes', async (req, res) => {
 		},
 		headers: {
         	"x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-        	"x-rapidapi-key": keys.rapidapi.key	
+        	"x-rapidapi-key": process.env.rapidapiKey	
         }
 	};
 	axios.request(config)
@@ -31,7 +31,7 @@ router.post('/getInformation', async (req, res) => {
 		method: 'get',
 		headers: {
         	"x-rapidapi-host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-        	"x-rapidapi-key": keys.rapidapi.key	
+        	"x-rapidapi-key": process.env.rapidapiKey	
         }
 	};
 	axios.request(config)

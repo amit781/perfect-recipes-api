@@ -2,7 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
-const keys = require('./keys');
+// const keys = require('./keys');
 const { db } = require('./postgresql-setup');
 
 passport.serializeUser((user, done) => {
@@ -19,8 +19,8 @@ passport.deserializeUser((id, done) => {
 passport.use(
 	new GoogleStrategy({
 		callbackURL: '/auth/google/redirect',
-		clientID: keys.google.clientID,
-		clientSecret: keys.google.clientSecret,
+		clientID: process.env.googleClientID,
+		clientSecret: process.env.googleClientSecret,
 	}, async (accessToken, refreshToke, profile, done) => {
 		const googleId = profile.id
 		const name = profile.displayName
