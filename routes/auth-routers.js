@@ -25,7 +25,7 @@ router.get('/google/redirect', passport.authenticate("google"), (req, res) => {
 );
 
 router.options('/login/success', cors(config));
-router.get('/login/success', cors(), (req, res) => {
+router.get('/login/success', cors(config), (req, res) => {
   if (req.user) {
     res.json({
       success: true,
