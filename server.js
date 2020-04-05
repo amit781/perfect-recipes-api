@@ -17,6 +17,7 @@ const app = express();
 
 app.use(cors(config));
 app.options('/auth/login/sucess', cors(config));
+app.options('/auth/register', cors(config));
 app.use(express.json());
 
 app.use(cookieSession({
