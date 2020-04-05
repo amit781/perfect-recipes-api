@@ -6,6 +6,12 @@ const bcrypt = require('bcrypt');
 const { db } = require('../config/postgresql-setup');
 const cors = require('cors');
 
+const config = {
+    origin: 'https://frontend-recipes.herokuapp.com',
+    credentials: true,
+    allowedHeaders: ['Content-Type','application/json']
+};
+
 //auth with google
 router.get('/google', passport.authenticate('google', {
 	scope: ['profile', 'email'],
@@ -18,7 +24,8 @@ router.get('/google/redirect', passport.authenticate("google"), (req, res) => {
 	}
 );
 
-router.get('/login/success', (req, res) => {
+router.options('/login/success', cors(config));
+router.get('/login/success', cors(), (req, res) => {
   if (req.user) {
     res.json({
       success: true,
@@ -60,11 +67,7 @@ checkPassword = (password) => {
     return re.test(password);
 }
 
-const config = {
-    origin: 'https://frontend-recipes.herokuapp.com',
-    credentials: true,
-    allowedHeaders: ['Content-Type','application/json']
-};
+
 router.options('/register', cors(config))
 router.post('/register',cors(config), async (req, res) => {
 	const { email, name, password } = req.body;
