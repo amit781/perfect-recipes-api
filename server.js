@@ -16,7 +16,7 @@ const config = {
 const app = express();
 
 app.use(cors(config));
-app.options('/auth/*', cors(config));
+app.options('*', cors(config));
 app.use(express.json());
 
 app.use(cookieSession({
