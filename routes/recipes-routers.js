@@ -68,8 +68,7 @@ router.get('/:email', (req, res) => {
 router.get('/getRecipe/:id', (req, res) => {
 	const id  = req.params.id;
 	db('recipes').where('id', id).then(recipe => {
-		console.log(recipe[0]);
-		res.json(recipe[0])}		);
+		res.json(recipe[0])});
 });
 
 module.exports = router;
