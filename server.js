@@ -5,6 +5,7 @@ const passport = require('passport');
 const cookieSession = require('cookie-session');
 const authRoutes = require('./routes/auth-routers')
 const apiRoutes = require('./routes/api-routers')
+const apiRoutes = require('./routes/recipes-routers')
 const { db } = require('./config/postgresql-setup');
 
 const config = {
