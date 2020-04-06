@@ -18,6 +18,7 @@ const app = express();
 app.use(cors(config));
 app.options('*', cors(config));
 app.use(express.json());
+app.use('/uploads/images', express.static('uploads/images'))
 
 app.use(cookieSession({
 	maxAge: 24 * 60 * 60 * 1000,
@@ -29,11 +30,12 @@ app.use(passport.session());
 
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
+app.use('/recipes', recipesRoutes);
 
 app.get('/' , (req, res) => {
 	res.send('it is working');
 })
-
+app.use('/recipes', recipesRoutes);
 app.listen(process.env.PORT || 4000, () => {
 	console.log(`app is running on port ${process.env.PORT}`)
 })

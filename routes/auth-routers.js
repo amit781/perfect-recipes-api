@@ -30,7 +30,7 @@ router.get('/login/success', cors(config), (req, res) => {
     res.json({
       success: true,
       message: "user has successfully authenticated",
-      user: req.user,
+      user: req.user[0],
       cookies: req.cookies
     });
   }
