@@ -17,13 +17,13 @@ var multerS3 = require('multer-s3')
 // 	}
 // });
 
-// const fileFilter = (req, file, cb) => {
-// 	if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-// 		cb(null, true);
-// 	} else {
-// 		cb(new Error('only jpeg or png'), false);
-// 	}
-// }
+const fileFilter = (req, file, cb) => {
+	if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+		cb(null, true);
+	} else {
+		cb(new Error('only jpeg or png'), false);
+	}
+}
 
 // const upload = multer({
 // 	storage: storage,
@@ -44,13 +44,17 @@ const upload = multer({
     s3: s3,
     bucket: 'perfectrecipesbucket',
     acl: 'public-read',
-    metadata: function (req, file, cb) {
-      cb(null, {fieldName: 'Testing META_DATA'});
+    metadata: (req, file, cb) => {
+      cb(null, {'Content-Type': file.mimetype});
     },
-    key: function (req, file, cb) {
+    key: (req, file, cb) => {
       cb(null, Date.now().toString())
     }
-  })
+  }),
+  limits: {
+	fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
 })
 
 const singleUpload = upload.single('recipeImage');
