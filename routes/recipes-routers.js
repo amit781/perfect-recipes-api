@@ -43,6 +43,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'perfectrecipesbucket',
+    acl: 'public-read',
     metadata: function (req, file, cb) {
       cb(null, {fieldName: 'Testing META_DATA'});
     },
