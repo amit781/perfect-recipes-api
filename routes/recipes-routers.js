@@ -55,7 +55,7 @@ const upload = multer({
 const singleUpload = upload.single('recipeImage');
 
 router.post('/image-upload', (req, res) => {
-	singleUpload(req, res, () => {
+	singleUpload(req, res, (err) => {
 		return res.json({imageUrl: req.file.location})
 	});
 })
