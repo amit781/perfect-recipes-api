@@ -41,7 +41,6 @@ router.get('/logout', (req, res) => {
 	res.send(req.isAuthenticated());
 })
 
-router.options('/signin', cors(config));
 router.post('/signin', (req, res, next) => {
  	passport.authenticate('local', (err, user, info) => {
  		if (err) { return next(err); }
