@@ -36,51 +36,51 @@ const upload = multer({
 
 
 //upload an image
-router.post('/uploadImage', upload.single('recipeImage'), (req, res) => {
-    if(req.file) {
-        // res.json(req.file.filename);
-        const file = req.file;
-	    const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
+// router.post('/uploadImage', upload.single('recipeImage'), (req, res) => {
+//     if(req.file) {
+//         // res.json(req.file.filename);
+//         const file = req.file;
+// 	    const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
 
-	    const s3bucket = new AWS.S3({
-	      accessKeyId: process.env.awsAccessKeyID,
-	      secretAccessKey: process.env.awsSecretAccessKey,
-	      region: 'us-west-1'
-	    });
+// 	    const s3bucket = new AWS.S3({
+// 	      accessKeyId: process.env.awsAccessKeyID,
+// 	      secretAccessKey: process.env.awsSecretAccessKey,
+// 	      region: 'us-west-1'
+// 	    });
 
-	    //Where you want to store your file
+// 	    //Where you want to store your file
 
-	    const params = {
-	      Bucket: process.env.s3BucketName,
-	      Key: file.originalname,
-	      Body: file.buffer,
-	      ContentType: file.mimetype,
-	      ACL: "public-read"
-	    };
+// 	    const params = {
+// 	      Bucket: process.env.s3BucketName,
+// 	      Key: file.originalname,
+// 	      Body: file.buffer,
+// 	      ContentType: file.mimetype,
+// 	      ACL: "public-read"
+// 	    };
 
-	    s3bucket.upload(params, function(err, data) {
-	      if (err) {
-	        res.status(500).json({ error: true, Message: err });
-	      } else {
-	        res.send({ data });
-	        const newFileUploaded = {
-	          description: req.body.description,
-	          fileLink: s3FileURL + file.originalname,
-	          s3_key: params.Key
-	        };
-	        // const document = new DOCUMENT(newFileUploaded);
-	        // document.save(function(error, newFile) {
-	        //   if (error) {
-	        //     throw error;
-	        //   }
-	        // });
-	      }
-	    });
-      }
-    else {
-    	res.json('no file uploaded')
-    };
-});
+// 	    s3bucket.upload(params, function(err, data) {
+// 	      if (err) {
+// 	        res.status(500).json({ error: true, Message: err });
+// 	      } else {
+// 	        res.send({ data });
+// 	        const newFileUploaded = {
+// 	          description: req.body.description,
+// 	          fileLink: s3FileURL + file.originalname,
+// 	          s3_key: params.Key
+// 	        };
+// 	        // const document = new DOCUMENT(newFileUploaded);
+// 	        // document.save(function(error, newFile) {
+// 	        //   if (error) {
+// 	        //     throw error;
+// 	        //   }
+// 	        // });
+// 	      }
+// 	    });
+//       }
+//     else {
+//     	res.json('no file uploaded')
+//     };
+// });
 
 //insert a recipe to the db
 router.post('/addRecipe', (req, res) => {
