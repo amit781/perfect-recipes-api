@@ -49,7 +49,7 @@ const upload = multer({
       cb(null, Object.assign({}, req.body));
     },
     key: (req, file, cb) => {
-      cb(null, "amittt")
+      cb(null, req.file.filename)
     }
   }),
   limits: {
