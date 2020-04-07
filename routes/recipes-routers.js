@@ -18,17 +18,13 @@ const upload = require('../services/upload-image');
 const singleUpload = upload.single('recipeImage');
 
 router.post('/image-upload', (req, res) => {
-	if (req.file) {
-		singleUpload(req, res, (err) => {
-			if (err) {
-				return res.status(422).json('error uploading image');
-			}
-			console.log(`File uploaded successfully. ${req.file.Location}`);
-			return res.json({fileName: req.file.originalname});
-		});
-	} else {
-		return res.status(422).json('no file uploaded');
-	}
+	singleUpload(req, res, (err) => {
+		if (err) {
+			return res.status(422).json('error uploading image');
+		}
+		console.log(`File uploaded successfully. ${req.file.Location}`);
+		return res.json({imageUrl: req.file.originalname});
+	});
 })
 
 router.get('/koko', (req, res) => {
