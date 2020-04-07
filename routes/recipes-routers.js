@@ -45,11 +45,11 @@ const upload = multer({
     bucket: 'perfectrecipesbucket',
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
-    // metadata: (req, file, cb) => {
-    //   cb(null, Object.assign({}, req.body));
-    // },
+    metadata: (req, file, cb) => {
+      cb(null, Object.assign({}, req.body));
+    },
     key: (req, file, cb) => {
-      cb(null, req.file.filename)
+      cb(null, req.params.id + ".jpg")
     }
   }),
   limits: {
