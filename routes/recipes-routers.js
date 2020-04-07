@@ -61,6 +61,9 @@ router.post('/image-upload', (req, res) => {
 	});
 })
 
+router.get('/koko', (req, res) => {
+	res.json('*******');
+})
 //upload an image
 // router.post('/uploadImage', upload.single('recipeImage'), (req, res) => {
 //     if(req.file) {
