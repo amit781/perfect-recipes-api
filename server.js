@@ -19,7 +19,6 @@ const app = express();
 app.use(cors(config));
 app.options('*', cors(config));
 app.use(express.json());
-// app.use('/uploads/images', express.static('uploads/images'))
 
 app.use(cookieSession({
 	maxAge: 24 * 60 * 60 * 1000,

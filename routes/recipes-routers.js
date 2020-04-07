@@ -2,19 +2,6 @@ const router = require('express').Router();
 const { db } = require('../config/postgresql-setup');
 const upload = require('../services/upload-image');
 
-// const uploadPath =  __dirname + '\uploads\images'
-// var storage = multer.memoryStorage();
-// var upload = multer({ storage: storage });
-
-// const storage = multer.diskStorage({
-// 	destination: (req, file, cb) => {
-// 		cb(null, 'uploads/images')
-// 	},
-// 	filename: (req, file, cb) => {
-// 		cb(null, file.originalname)
-// 	}
-// });
-
 const singleUpload = upload.single('recipeImage');
 
 router.post('/image-upload', (req, res) => {
@@ -30,19 +17,6 @@ router.post('/image-upload', (req, res) => {
 		}
 	});
 })
-
-router.get('/koko', (req, res) => {
-	res.json('*******');
-})
-//upload an image
-// router.post('/uploadImage', upload.single('recipeImage'), (req, res) => {
-//     if(req.file) {
-//         res.json(req.file.filename);
-//     }
-//     else {
-//     	res.json('no file uploaded')
-//     };
-// });
 
 //insert a recipe to the db
 router.post('/addRecipe', (req, res) => {
