@@ -44,11 +44,12 @@ const upload = multer({
     s3: s3,
     bucket: 'perfectrecipesbucket',
     acl: 'public-read',
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: (req, file, cb) => {
-      cb(null, {'Content-Type': file.mimetype});
+      cb(null, Object.assign({}, req.body));
     },
     key: (req, file, cb) => {
-      cb(null, Date.now().toString())
+      cb(null, "amittt")
     }
   }),
   limits: {
@@ -61,8 +62,11 @@ const singleUpload = upload.single('recipeImage');
 
 router.post('/image-upload', (req, res) => {
 	singleUpload(req, res, (err) => {
-		console.log(err);
-		return res.json({imageUrl: req.file.location})
+		if (err) {
+			return res.status(422).json('error uploading image');
+		}
+		console.log(`File uploaded successfully. ${req.file.Location}`);
+		return res.json({imageUrl: req.file.location});
 	});
 })
 
