@@ -23,7 +23,7 @@ router.post('/image-upload', (req, res) => {
 			return res.status(422).json('error uploading image');
 		}
 		console.log(`File uploaded successfully. ${req.file.Location}`);
-		return res.json({imageUrl: req.file.location});
+		return res.json({fileName: req.file.originalname});
 	});
 })
 
