@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const multer = require('multer');
 const { db } = require('../config/postgresql-setup');
-let AWS = require("aws-sdk");
+let aws = require("aws-sdk");
+var multerS3 = require('multer-s3')
 
 // const uploadPath =  __dirname + '\uploads\images'
-var storage = multer.memoryStorage();
-var upload = multer({ storage: storage });
+// var storage = multer.memoryStorage();
+// var upload = multer({ storage: storage });
 
 // const storage = multer.diskStorage({
 // 	destination: (req, file, cb) => {
@@ -31,7 +32,33 @@ var upload = multer({ storage: storage });
 // 	},
 // 	fileFilter: fileFilter
 // });
+aws.config.update({
+	secretAccessKey: process.env.awsSecretAccessKey,
+	accessKeyId: process.env.awsAccessKeyID,
+	region: 'us-west-1'
+})
+const s3 = new aws.S3();
 
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'perfectrecipesbucket',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: 'Testing META_DATA'});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
+    }
+  })
+})
+
+const singleUpload = upload.single('recipeImage');
+
+router.post('/image-upload', (req, res) => {
+	singleUpload(req, res, () => {
+		return res.json({imageUrl: req.file.location})
+	});
+})
 
 //upload an image
 // router.post('/uploadImage', upload.single('recipeImage'), (req, res) => {
@@ -42,46 +69,6 @@ var upload = multer({ storage: storage });
 //     	res.json('no file uploaded')
 //     };
 // });
-
-router.post("/upload", upload.single('recipeImage'), function(req, res) {
-  const file = req.file;
-  const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
-
-  let s3bucket = new AWS.S3({
-    accessKeyId: process.env.awsAccessKeyID,
-    secretAccessKey: process.env.awsSecretAccessKey,
-    region: 'us-west-1'
-  });
-
-  //Where you want to store your file
-
-  const params = {
-    const: process.env.s3BucketName,
-    Key: file.originalname,
-    Body: file.buffer,
-    ContentType: file.mimetype,
-    ACL: "public-read"
-  };
-
-  s3bucket.upload(params, function(err, data) {
-    if (err) {
-      res.status(500).json({ error: true, Message: err });
-    } else {
-      res.send({ data });
-      const newFileUploaded = {
-        description: req.body.description,
-        fileLink: s3FileURL + file.originalname,
-        s3_key: params.Key
-      };
-      // var document = new DOCUMENT(newFileUploaded);
-      // document.save(function(error, newFile) {
-      //   if (error) {
-      //     throw error;
-      //   }
-      // });
-    }
-  });
-});
 
 //insert a recipe to the db
 router.post('/addRecipe', (req, res) => {
