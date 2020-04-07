@@ -1,8 +1,6 @@
 const router = require('express').Router();
-const multer = require('multer');
 const { db } = require('../config/postgresql-setup');
-let aws = require("aws-sdk");
-var multerS3 = require('multer-s3')
+const upload = require('../services/upload-image');
 
 // const uploadPath =  __dirname + '\uploads\images'
 // var storage = multer.memoryStorage();
@@ -16,47 +14,6 @@ var multerS3 = require('multer-s3')
 // 		cb(null, file.originalname)
 // 	}
 // });
-
-const fileFilter = (req, file, cb) => {
-	if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-		cb(null, true);
-	} else {
-		cb(new Error('only jpeg or png'), false);
-	}
-}
-
-// const upload = multer({
-// 	storage: storage,
-// 	limits: {
-// 		fileSize: 1024 * 1024 * 5
-// 	},
-// 	fileFilter: fileFilter
-// });
-aws.config.update({
-	secretAccessKey: process.env.awsSecretAccessKey,
-	accessKeyId: process.env.awsAccessKeyID,
-	region: 'us-west-1'
-})
-const s3 = new aws.S3();
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'perfectrecipesbucket',
-    acl: 'public-read',
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    metadata: (req, file, cb) => {
-      cb(null, Object.assign({}, req.body));
-    },
-    key: (req, file, cb) => {
-      cb(null, req.params.id + ".jpg")
-    }
-  }),
-  limits: {
-	fileSize: 1024 * 1024 * 5
-  },
-  fileFilter: fileFilter
-})
 
 const singleUpload = upload.single('recipeImage');
 
