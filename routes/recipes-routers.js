@@ -1,43 +1,86 @@
 const router = require('express').Router();
 const multer = require('multer');
 const { db } = require('../config/postgresql-setup');
+let AWS = require("aws-sdk");
 
 // const uploadPath =  __dirname + '\uploads\images'
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage });
 
-const storage = multer.diskStorage({
-	destination: (req, file, cb) => {
-		cb(null, 'uploads/images')
-	},
-	filename: (req, file, cb) => {
-		cb(null, file.originalname)
-	}
-});
+// const storage = multer.diskStorage({
+// 	destination: (req, file, cb) => {
+// 		cb(null, 'uploads/images')
+// 	},
+// 	filename: (req, file, cb) => {
+// 		cb(null, file.originalname)
+// 	}
+// });
 
-const fileFilter = (req, file, cb) => {
-	if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-		cb(null, true);
-	} else {
-		cb(new Error('only jpeg or png'), false);
-	}
-}
+// const fileFilter = (req, file, cb) => {
+// 	if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+// 		cb(null, true);
+// 	} else {
+// 		cb(new Error('only jpeg or png'), false);
+// 	}
+// }
 
-const upload = multer({
-	storage: storage,
-	limits: {
-		fileSize: 1024 * 1024 * 5
-	},
-	fileFilter: fileFilter
-});
+// const upload = multer({
+// 	storage: storage,
+// 	limits: {
+// 		fileSize: 1024 * 1024 * 5
+// 	},
+// 	fileFilter: fileFilter
+// });
 
 
 //upload an image
-router.post('/uploadImage', upload.single('recipeImage'), (req, res) => {
-    if(req.file) {
-        res.json(req.file.filename);
+// router.post('/uploadImage', upload.single('recipeImage'), (req, res) => {
+//     if(req.file) {
+//         res.json(req.file.filename);
+//     }
+//     else {
+//     	res.json('no file uploaded')
+//     };
+// });
+
+router.post("/upload", upload.single("file"), function(req, res) {
+  const file = req.file;
+  const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
+
+  let s3bucket = new AWS.S3({
+    accessKeyId: process.env.awsAccessKeyID,
+    secretAccessKey: process.env.awsSecretAccessKey,
+    region: 'us-west-1'
+  });
+
+  //Where you want to store your file
+
+  const params = {
+    const: process.env.s3BucketName,
+    Key: file.originalname,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+    ACL: "public-read"
+  };
+
+  s3bucket.upload(params, function(err, data) {
+    if (err) {
+      res.status(500).json({ error: true, Message: err });
+    } else {
+      res.send({ data });
+      const newFileUploaded = {
+        description: req.body.description,
+        fileLink: s3FileURL + file.originalname,
+        s3_key: params.Key
+      };
+      // var document = new DOCUMENT(newFileUploaded);
+      // document.save(function(error, newFile) {
+      //   if (error) {
+      //     throw error;
+      //   }
+      // });
     }
-    else {
-    	res.json('no file uploaded')
-    };
+  });
 });
 
 //insert a recipe to the db
