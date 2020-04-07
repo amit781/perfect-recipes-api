@@ -9,7 +9,7 @@ const cors = require('cors');
 const config = {
     origin: 'https://frontend-recipes.herokuapp.com',
     credentials: true,
-    allowedHeaders: ['Content-Type','application/json']
+    allowedHeaders: ['Content-Type','application/json', 'text/html']
 };
 
 //auth with google
