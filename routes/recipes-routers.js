@@ -43,7 +43,7 @@ var upload = multer({ storage: storage });
 //     };
 // });
 
-router.post("/upload", upload.single("file"), function(req, res) {
+router.post("/upload", upload.single('recipeImage'), function(req, res) {
   const file = req.file;
   const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
 
