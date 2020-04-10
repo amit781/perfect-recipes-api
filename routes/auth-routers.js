@@ -4,7 +4,7 @@ const passportSetup = require('../config/passport-setup');
 const bcrypt = require('bcrypt');
 const { db } = require('../config/postgresql-setup');
 const cors = require('cors');
-const urlsConfig = require('../config.urls-config');
+const urlsConfig = require('../config/urls-config');
 
 const config = {
     origin: urlsConfig.CLIENT_HOME_PAGE_URL,
