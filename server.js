@@ -1,15 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
-// const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const authRoutes = require('./routes/auth-routers')
 const apiRoutes = require('./routes/api-routers')
 const recipesRoutes = require('./routes/recipes-routers')
 const { db } = require('./config/postgresql-setup');
+const urlsConfig = require('./config/urls-config');
 
 const config = {
-    origin: 'https://frontend-recipes.herokuapp.com',
+    origin: urlsConfig.CLIENT_HOME_PAGE_URL,
     credentials: true,
     allowedHeaders: ['Content-Type', 'application/json', 'text/html']
 };

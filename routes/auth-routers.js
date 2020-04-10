@@ -1,13 +1,13 @@
 const router = require('express').Router();
 const passport = require('passport');
 const passportSetup = require('../config/passport-setup');
-const CLIENT_HOME_PAGE_URL = "https://frontend-recipes.herokuapp.com";
 const bcrypt = require('bcrypt');
 const { db } = require('../config/postgresql-setup');
 const cors = require('cors');
+const urlsConfig = require('../config.urls-config');
 
 const config = {
-    origin: 'https://frontend-recipes.herokuapp.com',
+    origin: urlsConfig.CLIENT_HOME_PAGE_URL,
     credentials: true,
     allowedHeaders: ['Content-Type','application/json', 'text/html']
 };
@@ -20,7 +20,7 @@ router.get('/google', passport.authenticate('google', {
 
 // callback route for google to redirect to 
 router.get('/google/redirect', passport.authenticate("google"), (req, res) => {
-	res.redirect(CLIENT_HOME_PAGE_URL);
+	res.redirect(urlsConfig.CLIENT_HOME_PAGE_URL);
 	}
 );
 
