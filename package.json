@@ -33,7 +33,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.0.0",
     "unirest": "^0.6.0",
-    "snyk": "^1.410.3"
+    "snyk": "^1.1155.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
